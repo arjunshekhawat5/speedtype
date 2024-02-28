@@ -6,6 +6,7 @@ from threading import Thread
 import nltk
 from nltk.corpus import wordnet
 import customtkinter as ttk
+import os
 
 ttk.set_appearance_mode("dark")
 ttk.set_default_color_theme("dark-blue")
@@ -20,33 +21,44 @@ def get_words_from_synsets():
             words.add(lemma.name().lower())
 
     words = [word.replace("_", " ") for word in words]
+    new_words = []
+    for word in words:
+        new_words += word.split()
+    
+    return new_words
 
+
+def create_words_file():
+
+    words = get_words_from_synsets()
+    
     with open("words.txt", "w") as f:
         f.write("\n".join(words))
+    
+    return True
 
-    return
-
-
-def get_sentence(difficulty="easy"):
-    if difficulty == "easy":
-        a, b = 4, 7
-    elif difficulty == "medium":
+def get_range(difficulty="easy"):
+    if difficulty == "medium":
         a, b = 7, 12
     elif difficulty == "hard":
-        a, b = 15, 18
+        a, b = 13, 18
     elif difficulty == "insane":
-        a, b = 18, 21
+        a, b = 18, 24
     else:
-        a, b = 4, 7
-    
-    try:
-        with open("words.txt", "r") as f:
-            words = f.read().splitlines()
-    except FileNotFoundError:
-        get_words_from_synsets()
-        return get_sentence()
-    else:
-        return" ".join(random.choices(words, k=random.randint(a, b)))
+        a, b = 3, 6
+
+    return a,b
+
+def get_sentence(difficulty="easy"):
+    a, b = get_range(difficulty)
+
+    if not os.path.isfile("words.txt"):
+        create_words_file()
+
+    with open("words.txt", "r") as f:
+        words = f.read().splitlines()
+
+    return" ".join(random.choices(words, k=random.randint(a, b)))
 
 class App:
     def __init__(self, root):
@@ -56,7 +68,7 @@ class App:
         self.running = False
         self.time_counter = 0
         self.speeds = []
-        self.difficulty = "easy"
+        self.difficulty = "medium"
 
         self.title_label = ttk.CTkLabel(master=self.frame, text="Speed Type", font=('Helvetica', 42, 'bold'))
         self.title_label.grid(row=0, column=0, columnspan=3, pady=10)
@@ -149,7 +161,7 @@ class App:
         
         return speed_history
 
-    def change_difficulty(self, difficulty="1"):
+    def change_difficulty(self, difficulty=2):
         if difficulty == 1:
             self.difficulty = "easy"
         elif difficulty == 2:
