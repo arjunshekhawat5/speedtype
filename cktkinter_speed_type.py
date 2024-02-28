@@ -11,7 +11,7 @@ import os
 ttk.set_appearance_mode("dark")
 ttk.set_default_color_theme("dark-blue")
 
-def get_words_from_synsets():
+def create_words_file():
     nltk.download('wordnet')
     synsets = list(wordnet.all_synsets())
     words = set()
@@ -24,16 +24,9 @@ def get_words_from_synsets():
     new_words = []
     for word in words:
         new_words += word.split()
-    
-    return new_words
 
-
-def create_words_file():
-
-    words = get_words_from_synsets()
-    
     with open("words.txt", "w") as f:
-        f.write("\n".join(words))
+        f.write("\n".join(new_words))
     
     return True
 
@@ -68,7 +61,7 @@ class App:
         self.running = False
         self.time_counter = 0
         self.speeds = []
-        self.difficulty = "medium"
+        self.difficulty = "hard"
 
         self.title_label = ttk.CTkLabel(master=self.frame, text="Speed Type", font=('Helvetica', 42, 'bold'))
         self.title_label.grid(row=0, column=0, columnspan=3, pady=10)
