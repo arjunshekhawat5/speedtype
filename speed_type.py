@@ -1,7 +1,6 @@
 import random
 import time
 from datetime import datetime
-import threading
 from threading import Thread
 import nltk
 from nltk.corpus import wordnet

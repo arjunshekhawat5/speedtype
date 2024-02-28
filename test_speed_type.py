@@ -1,23 +1,41 @@
-from cktkinter_speed_type import get_sentence, get_range
+from speed_type import get_sentence, get_range, create_words_file
+import os
+
+def test_create_words_file():
+    os.remove("words.txt")
+    create_words_file()
+    assert os.path.isfile("words.txt")
 
 def test_get_sentence_easy():
+    if not os.path.isfile("words.txt"):
+        create_words_file()
+
     sentence = get_sentence()
     assert len(sentence.split()) > 2
     assert len(sentence.split()) < 7
 
 def test_get_sentence_medium():
+    if not os.path.isfile("words.txt"):
+        create_words_file()
+
     sentence = get_sentence("medium")
     assert len(sentence.split()) > 6 
     assert len(sentence.split()) < 13
     
 
 def test_get_sentence_hard():
+    if not os.path.isfile("words.txt"):
+        create_words_file()
+
     sentence = get_sentence("hard")
     assert len(sentence.split()) > 12
     assert len(sentence.split()) < 19
     
 
 def test_get_sentence_insane():
+    if not os.path.isfile("words.txt"):
+        create_words_file()
+
     sentence = get_sentence("insane")
     assert len(sentence.split()) > 17
     assert len(sentence.split()) < 25
