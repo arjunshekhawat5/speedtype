@@ -1,7 +1,5 @@
 # Speed Type
 
-## Video Demo: https://www.youtube.com/watch?v=cgkU9XmvyXE
-
 ## Description
 
 Speed Type is a Python application designed to enhance your typing skills by providing an interactive platform for practicing and improving typing speed. This application comes with various features and customization options to make your typing practice engaging and effective.
